@@ -85,24 +85,24 @@ public class App {
 					int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
 					SecSql sql = new SecSql();
-					
+
 					sql.append("SELECT COUNT(*)");
 					sql.append("FROM article");
 					sql.append("WHERE id = ?", searchID);
-					
+
 					int articlesCount = DBUtil.selectRowIntValue(conn, sql);
-					
-					if(articlesCount == 0) {
+
+					if (articlesCount == 0) {
 						System.out.printf("%d번 글이 없습니다.\n", searchID);
 						continue;
 					}
-					
+
 					System.out.println("== 게시물 수정 ==");
 					System.out.printf("수정할 제목 : ");
 					String title = sc.nextLine();
 					System.out.printf("수정할 내용 : ");
 					String body = sc.nextLine();
-					
+
 					sql = new SecSql();
 
 					sql.append("UPDATE article");
@@ -120,9 +120,22 @@ public class App {
 				else if (cmd.startsWith("article delete ")) {
 					int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
+					SecSql sql = new SecSql();
+
+					sql.append("SELECT COUNT(*)");
+					sql.append("FROM article");
+					sql.append("WHERE id = ?", searchID);
+
+					int articlesCount = DBUtil.selectRowIntValue(conn, sql);
+
+					if (articlesCount == 0) {
+						System.out.printf("%d번 글이 없습니다.\n", searchID);
+						continue;
+					}
+
 					System.out.println("== 게시물 삭제 ==");
 
-					SecSql sql = new SecSql();
+					sql = new SecSql();
 
 					sql.append("DELETE FROM article");
 					sql.append("WHERE id = ?", searchID);
@@ -135,8 +148,21 @@ public class App {
 
 				else if (cmd.startsWith("article detail ")) {
 					int searchID = Integer.parseInt(cmd.split(" ")[2]);
-
+					
 					SecSql sql = new SecSql();
+
+					sql.append("SELECT COUNT(*)");
+					sql.append("FROM article");
+					sql.append("WHERE id = ?", searchID);
+
+					int articlesCount = DBUtil.selectRowIntValue(conn, sql);
+
+					if (articlesCount == 0) {
+						System.out.printf("%d번 글이 없습니다.\n", searchID);
+						continue;
+					}
+
+					sql = new SecSql();
 
 					sql.append("SELECT *");
 					sql.append("FROM article");
@@ -146,9 +172,9 @@ public class App {
 					Article article = new Article(articleMap);
 
 					System.out.println("== 게시물 보기 ==");
-					System.out.printf("번호 : %d\n",article.id);
-					System.out.printf("제목 : %s\n",article.title);
-					System.out.printf("내용 : %s\n",article.body);
+					System.out.printf("번호 : %d\n", article.id);
+					System.out.printf("제목 : %s\n", article.title);
+					System.out.printf("내용 : %s\n", article.body);
 				}
 
 				else {
