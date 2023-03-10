@@ -53,44 +53,6 @@ public class App {
 					System.out.printf("%d번 글이 생성되었습니다.\n", id);
 				}
 
-				else if (cmd.startsWith("article modify ")) {
-					int searchID = Integer.parseInt(cmd.split(" ")[2]);
-
-					System.out.println("== 게시물 수정 ==");
-					System.out.printf("제목 : ");
-					String title = sc.nextLine();
-					System.out.printf("내용 : ");
-					String body = sc.nextLine();
-					
-					SecSql sql = new SecSql();
-
-					sql.append("UPDATE article");
-					sql.append("SET updateDate = NOW()");
-					sql.append(", title = ?", title);
-					sql.append(", `body` = ?", body);
-					sql.append("WHERE id = ?",searchID);
-
-					int id = DBUtil.update(conn, sql);
-					
-
-//					try {
-//						String sql = "UPDATE article";
-//						sql += " SET updateDate = NOW()";
-//						sql += ", title = '" + title + "'";
-//						sql += ", `body` = '" + body + "'";
-//						sql += " WHERE id = " + searchID + ";";
-//
-//						pstmt = conn.prepareStatement(sql);
-//						pstmt.executeUpdate();
-//
-//					} catch (SQLException e) {
-//						System.out.println("에러: " + e);
-//					}
-
-					System.out.printf("%d번 게시물이 수정되었습니다.\n", searchID);
-
-				}
-
 				else if (cmd.equals("article list")) {
 
 					List<Article> articles = new ArrayList<>();
@@ -117,6 +79,64 @@ public class App {
 					for (Article article : articles) {
 						System.out.printf("%d	|	%s\n", article.id, article.title);
 					}
+				}
+
+				else if (cmd.startsWith("article modify ")) {
+					int searchID = Integer.parseInt(cmd.split(" ")[2]);
+
+					System.out.println("== 게시물 수정 ==");
+					System.out.printf("제목 : ");
+					String title = sc.nextLine();
+					System.out.printf("내용 : ");
+					String body = sc.nextLine();
+
+					SecSql sql = new SecSql();
+
+					sql.append("UPDATE article");
+					sql.append("SET updateDate = NOW()");
+					sql.append(", title = ?", title);
+					sql.append(", `body` = ?", body);
+					sql.append("WHERE id = ?", searchID);
+
+					int id = DBUtil.update(conn, sql);
+
+					System.out.printf("%d번 게시물이 수정되었습니다.\n", searchID);
+
+				}
+
+				else if (cmd.startsWith("article delete ")) {
+					int searchID = Integer.parseInt(cmd.split(" ")[2]);
+
+					System.out.println("== 게시물 삭제 ==");
+
+					SecSql sql = new SecSql();
+
+					sql.append("DELETE FROM article");
+					sql.append("WHERE id = ?", searchID);
+
+					int id = DBUtil.delete(conn, sql);
+
+					System.out.printf("%d번 게시물이 삭제되었습니다.\n", searchID);
+
+				}
+
+				else if (cmd.startsWith("article detail ")) {
+					int searchID = Integer.parseInt(cmd.split(" ")[2]);
+
+					SecSql sql = new SecSql();
+
+					sql.append("SELECT *");
+					sql.append("FROM article");
+					sql.append("WHERE id = ?", searchID);
+
+					Map<String, Object> articleMap = DBUtil.selectRow(conn, sql);
+					Article article = new Article(articleMap);
+
+					System.out.println("== 게시물 보기 ==");
+					System.out.printf("번호 : %d\n",article.id);
+					System.out.printf("제목 : %s\n",article.title);
+					System.out.printf("내용 : %s\n",article.body);
+					
 				}
 
 				else {
