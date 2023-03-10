@@ -84,13 +84,26 @@ public class App {
 				else if (cmd.startsWith("article modify ")) {
 					int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
-					System.out.println("== 게시물 수정 ==");
-					System.out.printf("제목 : ");
-					String title = sc.nextLine();
-					System.out.printf("내용 : ");
-					String body = sc.nextLine();
-
 					SecSql sql = new SecSql();
+					
+					sql.append("SELECT COUNT(*)");
+					sql.append("FROM article");
+					sql.append("WHERE id = ?", searchID);
+					
+					int articlesCount = DBUtil.selectRowIntValue(conn, sql);
+					
+					if(articlesCount == 0) {
+						System.out.printf("%d번 글이 없습니다.\n", searchID);
+						continue;
+					}
+					
+					System.out.println("== 게시물 수정 ==");
+					System.out.printf("수정할 제목 : ");
+					String title = sc.nextLine();
+					System.out.printf("수정할 내용 : ");
+					String body = sc.nextLine();
+					
+					sql = new SecSql();
 
 					sql.append("UPDATE article");
 					sql.append("SET updateDate = NOW()");
@@ -136,7 +149,6 @@ public class App {
 					System.out.printf("번호 : %d\n",article.id);
 					System.out.printf("제목 : %s\n",article.title);
 					System.out.printf("내용 : %s\n",article.body);
-					
 				}
 
 				else {
