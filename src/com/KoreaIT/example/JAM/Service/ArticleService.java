@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.KoreaIT.example.JAM.Article;
 import com.KoreaIT.example.JAM.Dao.ArticleDao;
+import com.KoreaIT.example.JAM.util.DBUtil;
 
 public class ArticleService {
 	private ArticleDao articleDao;
@@ -21,19 +22,6 @@ public class ArticleService {
 		return articleDao.dowrite(title, body);
 	}
 
-	public List<Article> getArticles() {
-		
-		List<Map<String, Object>> articleListMap = articleDao.getArticles();
-		
-		List<Article> articles = new ArrayList<>();
-		
-		for (Map<String, Object> articleMap : articleListMap) {
-			articles.add(new Article(articleMap));
-		}
-		
-		return articles;
-	}
-
 	public int docount(int searchID) {
 		return articleDao.docount(searchID);
 	}
@@ -44,6 +32,28 @@ public class ArticleService {
 
 	public void dodelete(int searchID) {
 		articleDao.dodelete(searchID);
+	}
+
+	public List<Article> getArticles() {
+
+		List<Map<String, Object>> articleListMap = articleDao.getArticles();
+
+		List<Article> articles = new ArrayList<>();
+
+		for (Map<String, Object> articleMap : articleListMap) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
+
+	public Article getArticle(int searchID) {
+		
+		Map<String, Object> articleMap = articleDao.getArticle(searchID);
+				
+		Article article = new Article(articleMap);
+		
+		return article;
 	}
 
 }

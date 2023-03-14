@@ -30,16 +30,6 @@ public class ArticleDao {
 		return DBUtil.insert(conn, sql);
 	}
 	
-	public List<Map<String, Object>> getArticles() {
-		SecSql sql = new SecSql();
-
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("ORDER BY id DESC");
-		
-		return DBUtil.selectRows(conn, sql);
-	}
-
 	public int docount(int searchID) {
 		SecSql sql = new SecSql();
 
@@ -60,7 +50,6 @@ public class ArticleDao {
 		sql.append("WHERE id = ?", searchID);
 
 		DBUtil.update(conn, sql);
-		
 	}
 
 	public void dodelete(int searchID) {
@@ -70,6 +59,26 @@ public class ArticleDao {
 		sql.append("WHERE id = ?", searchID);
 
 		DBUtil.delete(conn, sql);
+	}
+	
+	public List<Map<String, Object>> getArticles() {
+		SecSql sql = new SecSql();
+
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("ORDER BY id DESC");
+		
+		return DBUtil.selectRows(conn, sql);
+	}
+
+	public Map<String, Object> getArticle(int searchID) {
+		SecSql sql = new SecSql();
+
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", searchID);
+
+		return DBUtil.selectRow(conn, sql);
 	}
 
 }
