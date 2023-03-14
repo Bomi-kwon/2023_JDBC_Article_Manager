@@ -151,28 +151,22 @@ public class App {
 					
 					SecSql sql = new SecSql();
 
-					sql.append("SELECT COUNT(*)");
-					sql.append("FROM article");
-					sql.append("WHERE id = ?", searchID);
-
-					int articlesCount = DBUtil.selectRowIntValue(conn, sql);
-
-					if (articlesCount == 0) {
-						System.out.printf("%d번 글이 없습니다.\n", searchID);
-						continue;
-					}
-
-					sql = new SecSql();
-
 					sql.append("SELECT *");
 					sql.append("FROM article");
 					sql.append("WHERE id = ?", searchID);
 
 					Map<String, Object> articleMap = DBUtil.selectRow(conn, sql);
+					
+					if (articleMap.isEmpty()) {
+						System.out.printf("%d번 글이 없습니다.\n", searchID);
+						continue;
+					}
+					
 					Article article = new Article(articleMap);
 
 					System.out.println("== 게시물 보기 ==");
 					System.out.printf("번호 : %d\n", article.id);
+					System.out.printf("수정날짜 : %s\n", article.regDate);
 					System.out.printf("제목 : %s\n", article.title);
 					System.out.printf("내용 : %s\n", article.body);
 				}
