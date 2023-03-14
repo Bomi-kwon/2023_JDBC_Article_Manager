@@ -45,3 +45,4 @@ loginPW = 'test1',
 SELECT * FROM article;
 SELECT * FROM `member`;
 
+ALTER TABLE `member` MODIFY COLUMN loginID VARCHAR(50) NOT NULL UNIQUE;
