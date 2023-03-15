@@ -7,14 +7,11 @@ import java.util.Map;
 
 import com.KoreaIT.example.JAM.Article;
 import com.KoreaIT.example.JAM.Dao.ArticleDao;
-import com.KoreaIT.example.JAM.util.DBUtil;
 
 public class ArticleService {
 	private ArticleDao articleDao;
-	private Connection conn;
 
 	public ArticleService(Connection conn) {
-		this.conn = conn;
 		this.articleDao = new ArticleDao(conn);
 	}
 
@@ -51,9 +48,11 @@ public class ArticleService {
 		
 		Map<String, Object> articleMap = articleDao.getArticle(searchID);
 				
-		Article article = new Article(articleMap);
+		if (articleMap.isEmpty()) {
+			return null;
+		}
 		
-		return article;
+		return new Article(articleMap);
 	}
 
 }

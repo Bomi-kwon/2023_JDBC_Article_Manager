@@ -8,12 +8,10 @@ import com.KoreaIT.example.JAM.Article;
 import com.KoreaIT.example.JAM.Service.ArticleService;
 
 public class ArticleController {
-	private Connection conn;
 	private Scanner sc;
 	private ArticleService articleService;
 
 	public ArticleController(Connection conn, Scanner sc) {
-		this.conn = conn;
 		this.sc = sc;
 		this.articleService = new ArticleService(conn);
 	}
@@ -87,18 +85,16 @@ public class ArticleController {
 	public void showdetail(String cmd) {
 		int searchID = Integer.parseInt(cmd.split(" ")[2]);
 		
-		int articlesCount = articleService.docount(searchID);
-
-		if (articlesCount == 0) {
+		Article article = articleService.getArticle(searchID);
+		
+		if (article == null) {
 			System.out.printf("%d번 글이 없습니다.\n", searchID);
 			return;
 		}
-		
-		Article article = articleService.getArticle(searchID);
 
 		System.out.println("== 게시물 보기 ==");
 		System.out.printf("번호 : %d\n", article.id);
-		System.out.printf("수정날짜 : %s\n", article.regDate);
+		System.out.printf("수정날짜 : %s\n", article.updateDate);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 	}
