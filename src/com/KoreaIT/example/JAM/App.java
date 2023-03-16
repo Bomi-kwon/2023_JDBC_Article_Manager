@@ -41,6 +41,14 @@ public class App {
 				else if (cmd.equals("member login")) {
 					membercontroller.dologin();
 				}
+				
+				else if (cmd.equals("member logout")) {
+					membercontroller.dologout();
+				}
+				
+				else if (cmd.equals("member profile")) {
+					membercontroller.showprofile();
+				}
 
 				else if (cmd.equals("article write")) {
 					articlecontroller.dowrite();

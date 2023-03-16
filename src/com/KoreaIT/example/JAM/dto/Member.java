@@ -1,4 +1,4 @@
-package com.KoreaIT.example.JAM;
+package com.KoreaIT.example.JAM.dto;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -19,5 +19,8 @@ public class Member {
 		this.loginID = (String) memberMap.get("loginID");
 		this.loginPW = (String) memberMap.get("loginPW");
 		this.name = (String) memberMap.get("name");
+		
+		
+		
 	}
 }
