@@ -37,6 +37,10 @@ public class App {
 				else if (cmd.equals("member join")) {
 					membercontroller.dojoin();
 				}
+				
+				else if (cmd.equals("member login")) {
+					membercontroller.dologin();
+				}
 
 				else if (cmd.equals("article write")) {
 					articlecontroller.dowrite();

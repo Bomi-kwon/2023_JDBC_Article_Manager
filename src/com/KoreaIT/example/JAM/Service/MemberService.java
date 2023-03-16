@@ -1,7 +1,9 @@
 package com.KoreaIT.example.JAM.Service;
 
 import java.sql.Connection;
+import java.util.Map;
 
+import com.KoreaIT.example.JAM.Member;
 import com.KoreaIT.example.JAM.Dao.MemberDao;
 
 public class MemberService {
@@ -21,6 +23,17 @@ public class MemberService {
 
 	public void dojoin(String loginID, String loginPW, String name) {
 		memberDao.dojoin(loginID, loginPW, name);
+	}
+
+	public Member getMemberByLoginID(String loginID) {
+		
+		Map<String, Object> memberMap = memberDao.getMemberByLoginID(loginID);
+		
+		if(memberMap.isEmpty()) {
+			return null;
+		}
+		
+		return new Member(memberMap);
 	}
 
 }

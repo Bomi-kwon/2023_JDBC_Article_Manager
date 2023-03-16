@@ -3,6 +3,7 @@ package com.KoreaIT.example.JAM.Controller;
 import java.sql.Connection;
 import java.util.Scanner;
 
+import com.KoreaIT.example.JAM.Member;
 import com.KoreaIT.example.JAM.Service.MemberService;
 
 public class MemberController {
@@ -81,6 +82,46 @@ public class MemberController {
 		memberService.dojoin(loginID, loginPW, name);
 
 		System.out.printf("%s 회원님 환영합니다.\n", name);
+	}
+
+	public void dologin() {
+		String loginID = null;
+		String loginPW = null;
+		System.out.println("== 로그인 ==");
+		
+		while(true) {
+			
+			System.out.printf("아이디 : ");
+			loginID = sc.nextLine().trim();
+			
+			if(loginID.length() == 0) {
+				System.out.println("아이디를 입력해주세요.");
+				continue;
+			}
+			
+			System.out.printf("비밀번호 : ");
+			loginPW = sc.nextLine().trim();
+			
+			if(loginPW.length() == 0) {
+				System.out.println("비밀번호를 입력해주세요.");
+				continue;
+			}
+			
+			Member member = memberService.getMemberByLoginID(loginID);
+			
+			if(member == null || member.loginPW.equals(loginPW) == false) {
+				System.out.println("입력하신 아이디 또는 비밀번호가 올바르지 않습니다.");
+				continue;
+			}
+			
+			System.out.printf("%s님 로그인 되었습니다.\n",member.name);
+			System.out.printf("아이디 : %s\n", member.loginID);
+			System.out.printf("비밀번호 : %s\n", member.loginPW);
+			System.out.printf("이름 : %s\n", member.name);
+			
+			break;
+		}
+		
 	}
 	
 }
