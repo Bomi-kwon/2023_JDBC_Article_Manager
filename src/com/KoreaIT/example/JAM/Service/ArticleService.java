@@ -15,8 +15,8 @@ public class ArticleService {
 		this.articleDao = new ArticleDao(conn);
 	}
 
-	public int dowrite(String title, String body) {
-		return articleDao.dowrite(title, body);
+	public int dowrite(String title, String body, int memberID) {
+		return articleDao.dowrite(title, body, memberID);
 	}
 
 	public int docount(int searchID) {
@@ -53,6 +53,18 @@ public class ArticleService {
 		}
 		
 		return new Article(articleMap);
+	}
+
+	public String getWriternameByArticleID(int articleID) {
+		Map<String, Object> articleMap = articleDao.getWriternameByArticleID(articleID);
+		
+		if (articleMap.isEmpty()) {
+			return null;
+		}
+		
+		Article article = new Article(articleMap);
+		
+		return article.writername;
 	}
 
 }

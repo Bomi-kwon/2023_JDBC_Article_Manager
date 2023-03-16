@@ -47,5 +47,4 @@ public class MemberDao {
 
 		return DBUtil.selectRow(conn, sql);
 	}
-
 }

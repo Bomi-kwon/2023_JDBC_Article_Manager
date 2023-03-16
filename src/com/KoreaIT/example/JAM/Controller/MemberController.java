@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.KoreaIT.example.JAM.Service.MemberService;
 import com.KoreaIT.example.JAM.dto.Member;
 import com.KoreaIT.example.JAM.session.Session;
+import com.KoreaIT.example.JAM.util.Util;
 
 public class MemberController {
 	private Scanner sc;
@@ -162,6 +163,6 @@ public class MemberController {
 		System.out.println("== 마이페이지 ==");
 		System.out.printf("아이디 : %s\n", Session.loginedMember.loginID);
 		System.out.printf("이름 : %s\n", Session.loginedMember.name);
-		System.out.printf("가입한 날짜 : %s\n", Session.loginedMember.regDate);
+		System.out.printf("가입한 날짜 : %s\n", Util.datetimeFormat(Session.loginedMember.regDate));
 	}
 }

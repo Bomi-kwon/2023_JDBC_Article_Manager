@@ -18,12 +18,13 @@ public class ArticleDao {
 		this.articles = new ArrayList<>();
 	}
 
-	public int dowrite(String title, String body) {
+	public int dowrite(String title, String body, int memberID) {
 		SecSql sql = new SecSql();
 
 		sql.append("INSERT INTO article");
 		sql.append("SET regDate = NOW()");
 		sql.append(", updateDate = NOW()");
+		sql.append(", memberID = ?", memberID);
 		sql.append(", title = ?", title);
 		sql.append(", `body` = ?", body);
 
@@ -78,6 +79,18 @@ public class ArticleDao {
 		sql.append("FROM article");
 		sql.append("WHERE id = ?", searchID);
 
+		return DBUtil.selectRow(conn, sql);
+	}
+
+	public Map<String, Object> getWriternameByArticleID(int articleID) {
+		SecSql sql = new SecSql();
+
+		sql.append("SELECT *");
+		sql.append("FROM article AS a");
+		sql.append("INNER JOIN member AS m");
+		sql.append("ON a.memberID = m.id");
+		sql.append("WHERE a.id = ?", articleID);
+		
 		return DBUtil.selectRow(conn, sql);
 	}
 
