@@ -100,7 +100,8 @@ public class ArticleController {
 		System.out.printf("%d번 게시물이 삭제되었습니다.\n", searchID);
 	}
 
-	public void showlist() {
+	public void showlist(String cmd) {
+//		String searchKeyword = cmd.substring("article list");
 
 		List<Article> articles = articleService.getArticles();
 
@@ -112,8 +113,7 @@ public class ArticleController {
 		System.out.println("== 게시물 목록 ==");
 		System.out.println("번호	|	제목	|	작성자");
 		for (Article article : articles) {
-			String writername = articleService.getWriternameByArticleID(article.id);
-			System.out.printf("%d	|	%s	|	%s\n", article.id, article.title, writername);
+			System.out.printf("%d	|	%s	|	%s\n", article.id, article.title, article.writername);
 		}
 	}
 
@@ -126,8 +126,6 @@ public class ArticleController {
 			System.out.printf("%d번 글이 없습니다.\n", searchID);
 			return;
 		}
-		
-		String writername = articleService.getWriternameByArticleID(article.id);
 
 		System.out.println("== 게시물 보기 ==");
 		System.out.printf("번호 : %d\n", article.id);
@@ -135,6 +133,6 @@ public class ArticleController {
 		System.out.printf("수정날짜 : %s\n", Util.datetimeFormat(article.updateDate));
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
-		System.out.printf("작성자 : %s\n", writername);
+		System.out.printf("작성자 : %s\n", article.writername);
 	}
 }

@@ -55,16 +55,4 @@ public class ArticleService {
 		return new Article(articleMap);
 	}
 
-	public String getWriternameByArticleID(int articleID) {
-		Map<String, Object> articleMap = articleDao.getWriternameByArticleID(articleID);
-		
-		if (articleMap.isEmpty()) {
-			return null;
-		}
-		
-		Article article = new Article(articleMap);
-		
-		return article.writername;
-	}
-
 }

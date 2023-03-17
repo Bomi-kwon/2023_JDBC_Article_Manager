@@ -20,7 +20,7 @@ public class Article {
 		this.title = (String) articleMap.get("title");
 		this.body = (String) articleMap.get("body");
 		this.memberID = (int) articleMap.get("memberID");
-		this.writername = (String) articleMap.get("name");
+		this.writername = (String) articleMap.get("writername");
 	}
 
 }

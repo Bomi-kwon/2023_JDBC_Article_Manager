@@ -54,8 +54,8 @@ public class App {
 					articlecontroller.dowrite();
 				}
 
-				else if (cmd.equals("article list")) {
-					articlecontroller.showlist();
+				else if (cmd.startsWith("article list")) {
+					articlecontroller.showlist(cmd);
 				}
 
 				else if (cmd.startsWith("article modify ")) {

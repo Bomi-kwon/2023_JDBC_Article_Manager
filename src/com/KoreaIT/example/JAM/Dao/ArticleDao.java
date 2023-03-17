@@ -65,9 +65,11 @@ public class ArticleDao {
 	public List<Map<String, Object>> getArticles() {
 		SecSql sql = new SecSql();
 
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("ORDER BY id DESC");
+		sql.append("SELECT a.*, m.name AS writername");
+		sql.append("FROM article AS a");
+		sql.append("INNER JOIN member AS m");
+		sql.append("ON a.memberID = m.id");
+		sql.append("ORDER BY a.id DESC");
 		
 		return DBUtil.selectRows(conn, sql);
 	}
@@ -75,23 +77,12 @@ public class ArticleDao {
 	public Map<String, Object> getArticle(int searchID) {
 		SecSql sql = new SecSql();
 
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("WHERE id = ?", searchID);
-
-		return DBUtil.selectRow(conn, sql);
-	}
-
-	public Map<String, Object> getWriternameByArticleID(int articleID) {
-		SecSql sql = new SecSql();
-
-		sql.append("SELECT *");
+		sql.append("SELECT a.*, m.name AS writername");
 		sql.append("FROM article AS a");
 		sql.append("INNER JOIN member AS m");
 		sql.append("ON a.memberID = m.id");
-		sql.append("WHERE a.id = ?", articleID);
-		
+		sql.append("WHERE a.id = ?", searchID);
+
 		return DBUtil.selectRow(conn, sql);
 	}
-
 }
