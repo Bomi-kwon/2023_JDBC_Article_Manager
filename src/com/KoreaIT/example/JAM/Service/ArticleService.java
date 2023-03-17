@@ -55,4 +55,21 @@ public class ArticleService {
 		return new Article(articleMap);
 	}
 
+	public List<Article> getArticlesByKeyword(String searchKeyword) {
+		
+		List<Map<String, Object>> articleListMap = articleDao.getArticlesByKeyword(searchKeyword);
+		
+		List<Article> found_articles = new ArrayList<>();
+		
+		for (Map<String, Object> articleMap : articleListMap) {
+			found_articles.add(new Article(articleMap));
+		}
+		
+		return found_articles;
+	}
+
+	public void increaseViewCount(int searchID, int viewCount) {
+		articleDao.increaseViewCount(searchID, viewCount);
+	}
+
 }

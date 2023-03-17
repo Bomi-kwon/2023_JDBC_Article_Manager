@@ -45,14 +45,12 @@ public class ArticleController {
 
 		int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
-		int articlesCount = articleService.docount(searchID);
-
-		if (articlesCount == 0) {
+		Article article = articleService.getArticle(searchID);
+		
+		if (article == null) {
 			System.out.printf("%d번 글이 없습니다.\n", searchID);
 			return;
 		}
-
-		Article article = articleService.getArticle(searchID);
 
 		if (article.memberID != Session.loginedMemberId) {
 			System.out.println("게시물 수정 권한이 없습니다.");
@@ -79,17 +77,15 @@ public class ArticleController {
 
 		int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
-		int articlesCount = articleService.docount(searchID);
-
-		if (articlesCount == 0) {
+		Article article = articleService.getArticle(searchID);
+		
+		if (article == null) {
 			System.out.printf("%d번 글이 없습니다.\n", searchID);
 			return;
 		}
 
-		Article article = articleService.getArticle(searchID);
-
 		if (article.memberID != Session.loginedMemberId) {
-			System.out.println("게시물 수정 권한이 없습니다.");
+			System.out.println("게시물 삭제 권한이 없습니다.");
 			return;
 		}
 
@@ -101,7 +97,7 @@ public class ArticleController {
 	}
 
 	public void showlist(String cmd) {
-//		String searchKeyword = cmd.substring("article list");
+		String searchKeyword = cmd.substring("article list".length()).trim();
 
 		List<Article> articles = articleService.getArticles();
 
@@ -110,22 +106,36 @@ public class ArticleController {
 			return;
 		}
 
+		if (searchKeyword.length() > 0) {
+
+			List<Article> found_articles = articleService.getArticlesByKeyword(searchKeyword);
+
+			System.out.println("== 검색 결과 ==");
+			System.out.println("번호	|	제목	|	작성자	|	조회수");
+			for (Article article : found_articles) {
+				System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.writername, article.viewCount);
+			}
+			return;
+		}
+
 		System.out.println("== 게시물 목록 ==");
-		System.out.println("번호	|	제목	|	작성자");
+		System.out.println("번호	|	제목	|	작성자	|	조회수");
 		for (Article article : articles) {
-			System.out.printf("%d	|	%s	|	%s\n", article.id, article.title, article.writername);
+			System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.writername, article.viewCount);
 		}
 	}
 
 	public void showdetail(String cmd) {
 		int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
-		Article article = articleService.getArticle(searchID);
-
-		if (article == null) {
+		int articleCount = articleService.docount(searchID);
+		if (articleCount == 0) {
 			System.out.printf("%d번 글이 없습니다.\n", searchID);
 			return;
 		}
+		Article article = articleService.getArticle(searchID);
+		
+		articleService.increaseViewCount(searchID, article.viewCount);
 
 		System.out.println("== 게시물 보기 ==");
 		System.out.printf("번호 : %d\n", article.id);
@@ -134,5 +144,6 @@ public class ArticleController {
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 		System.out.printf("작성자 : %s\n", article.writername);
+		System.out.printf("조회수 : %d\n", article.viewCount);
 	}
 }

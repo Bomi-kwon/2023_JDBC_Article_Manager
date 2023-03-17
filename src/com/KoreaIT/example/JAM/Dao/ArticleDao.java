@@ -85,4 +85,27 @@ public class ArticleDao {
 
 		return DBUtil.selectRow(conn, sql);
 	}
+
+	public List<Map<String, Object>> getArticlesByKeyword(String searchKeyword) {
+		SecSql sql = new SecSql();
+
+		sql.append("SELECT a.*, m.name AS writername");
+		sql.append("FROM article AS a");
+		sql.append("INNER JOIN member AS m");
+		sql.append("ON a.memberID = m.id");
+		sql.append("WHERE a.title LIKE '%" + searchKeyword + "%'");
+		sql.append("ORDER BY a.id DESC");
+		
+		return DBUtil.selectRows(conn, sql);
+	}
+
+	public void increaseViewCount(int searchID, int viewCount) {
+		SecSql sql = new SecSql();
+
+		sql.append("UPDATE article");
+		sql.append("SET viewCount = ?", viewCount+1);
+		sql.append("WHERE id = ?", searchID);
+
+		DBUtil.update(conn, sql);
+	}
 }

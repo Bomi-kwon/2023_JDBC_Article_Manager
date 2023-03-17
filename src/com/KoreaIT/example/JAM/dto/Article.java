@@ -12,6 +12,7 @@ public class Article {
 	public LocalDateTime updateDate;
 	public int memberID;
 	public String writername;
+	public int viewCount;
 	
 	public Article(Map<String, Object> articleMap) {
 		this.id = (int) articleMap.get("id");
@@ -21,6 +22,7 @@ public class Article {
 		this.body = (String) articleMap.get("body");
 		this.memberID = (int) articleMap.get("memberID");
 		this.writername = (String) articleMap.get("writername");
+		this.viewCount = (int) articleMap.get("viewCount");
 	}
 
 }
