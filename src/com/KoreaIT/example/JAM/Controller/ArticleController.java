@@ -110,6 +110,10 @@ public class ArticleController {
 
 			List<Article> found_articles = articleService.getArticlesByKeyword(searchKeyword);
 
+			if (found_articles.size() == 0) {
+				System.out.println("검색어를 포함한 게시물이 없습니다.");
+				return;
+			}
 			System.out.println("== 검색 결과 ==");
 			System.out.println("번호	|	제목	|	작성자	|	조회수");
 			for (Article article : found_articles) {
@@ -129,13 +133,15 @@ public class ArticleController {
 		int searchID = Integer.parseInt(cmd.split(" ")[2]);
 
 		int articleCount = articleService.docount(searchID);
+		
 		if (articleCount == 0) {
 			System.out.printf("%d번 글이 없습니다.\n", searchID);
 			return;
 		}
-		Article article = articleService.getArticle(searchID);
 		
-		articleService.increaseViewCount(searchID, article.viewCount);
+		articleService.increaseViewCount(searchID);
+		
+		Article article = articleService.getArticle(searchID);
 
 		System.out.println("== 게시물 보기 ==");
 		System.out.printf("번호 : %d\n", article.id);

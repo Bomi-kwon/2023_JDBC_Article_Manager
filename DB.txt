@@ -3,6 +3,7 @@ DROP DATABASE IF EXISTS jdbc_article_manager;
 CREATE DATABASE jdbc_article_manager;
 USE jdbc_article_manager;
 
+
 # article 테이블 생성
 CREATE TABLE article(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -46,3 +47,17 @@ SELECT * FROM article;
 SELECT * FROM `member`;
 
 ALTER TABLE `member` MODIFY COLUMN loginID VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE article ADD COLUMN writername VARCHAR(50) NOT NULL;
+ALTER TABLE article DROP COLUMN memberID;
+ALTER TABLE article ADD COLUMN memberID INT UNSIGNED NOT NULL AFTER updateDate;
+DELETE FROM article WHERE memberID = 0;
+ALTER TABLE article ADD COLUMN viewCount INT UNSIGNED NOT NULL;
+UPDATE article
+SET viewCount = 1
+WHERE id = 4;
+
+SELECT *
+FROM article AS a
+INNER JOIN `member` AS m
+ON a.memberID = m.id
+WHERE a.id = 4;

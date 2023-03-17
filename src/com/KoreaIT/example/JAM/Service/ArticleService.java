@@ -68,8 +68,8 @@ public class ArticleService {
 		return found_articles;
 	}
 
-	public void increaseViewCount(int searchID, int viewCount) {
-		articleDao.increaseViewCount(searchID, viewCount);
+	public void increaseViewCount(int searchID) {
+		articleDao.increaseViewCount(searchID);
 	}
 
 }

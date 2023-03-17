@@ -99,11 +99,11 @@ public class ArticleDao {
 		return DBUtil.selectRows(conn, sql);
 	}
 
-	public void increaseViewCount(int searchID, int viewCount) {
+	public void increaseViewCount(int searchID) {
 		SecSql sql = new SecSql();
 
 		sql.append("UPDATE article");
-		sql.append("SET viewCount = ?", viewCount+1);
+		sql.append("SET viewCount = viewCount + 1");
 		sql.append("WHERE id = ?", searchID);
 
 		DBUtil.update(conn, sql);
